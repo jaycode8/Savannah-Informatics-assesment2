@@ -10,24 +10,21 @@ const main = async (req, res) => {
 };
 
 const signUp = async (req, res) => {
+    console.log(req.body);
     try {
         const existEmail = await usersModel.findOne({ email: req.body.email });
         if (!existEmail) {
             const existUsername = await usersModel.findOne({ username: req.body.username });
             if (!existUsername) {
-                if (req.body.password.length < 7) {
-                    req.body.password = await bcrypt.hash(req.body.password, +saltsrounds);
-                    const user = new usersModel(req.body);
-                    await user.save();
-                    res.status(200).json({ message: "successfully added a new user", success: true });
-                } else {
-                    res.status(403).json({ message: "pin should be of 4 numbers only", success: false });
-                }
+                req.body.password = await bcrypt.hash(req.body.password, +saltsrounds);
+                const user = new usersModel(req.body);
+                await user.save();
+                res.status(200).json({ message: "successfully added a new user", success: true });
             } else {
-                res.status(403).json({ message: "User name is already registered", success: false });
+                res.status(400).json({ message: "User name is already taken", success: false });
             }
         } else {
-            res.status(403).json({ message: "Email address is already registered", success: false });
+            res.status(400).json({ message: "Email address is already registered", success: false });
         }
     } catch (err) {
         res.status(404).json({ message: err.message, success: false });
@@ -36,17 +33,17 @@ const signUp = async (req, res) => {
 
 const signIn = async (req, res) => {
     try {
-        const foundUser = await usersModel.findOne({ email: req.body.email });
+        const foundUser = await usersModel.findOne({ username: req.body.username });
         if (foundUser) {
             const pinMatch = await bcrypt.compare(req.body.password, foundUser.password);
             if (pinMatch) {
                 let tokens = await jwt.sign({ user: foundUser._id }, jwtKey, { expiresIn: 60 * 60 * 12 });
                 res.status(200).json({ message: "Successfully logged in. Redirecting......", data: { user: foundUser ,access_token:tokens}, success: true });
             } else {
-                res.status(403).json({ message: "password is incorrect", success: false });
+                res.status(400).json({ message: "password is incorrect", success: false });
             }
         } else {
-            res.status(403).json({ message: `${req.body.email} doesnot exist`, success: false });
+            res.status(400).json({ message: `${req.body.username} doesnot exist`, success: false });
         }
     } catch (err) {
         res.status(404).json({ message: err.message, success: false });

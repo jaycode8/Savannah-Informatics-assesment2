@@ -8,7 +8,7 @@ const new_user = async (req, res) => {
             if (!existUsername) {
                 const user = new usersModel(req.body);
                 await user.save();
-                res.status(200).json({ message: `New user successfully added`, success: true });
+                res.status(200).json({ message: `Account successfully created`, success: true });
                 
             } else {
                 res.status(403).json({ message: "username is already taken", success: false });
