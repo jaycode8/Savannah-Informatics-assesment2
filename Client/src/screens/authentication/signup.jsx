@@ -1,24 +1,23 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-// const api_url = process.env.REACT_APP_API_URL;
-const api_url = "http://localhost:4500";
+const api_url = import.meta.env.VITE_API_URL;
 
 const Signup = () => {
-    const [actor, setActor] = useState({
+    const [user, setUser] = useState({
         username: "",
         email: "",
         password: "",
     });
     const [res, setRes] = useState({});
     const handleChange = ({ currentTarget: input }) => {
-        setActor({ ...actor, [input.name]: input.value });
+        setUser({ ...user, [input.name]: input.value });
     };
     const navigate = useNavigate();
     const handleSubmit = async (event) => {
         try {
             event.preventDefault();
-            const res = await axios.post(`${api_url}/auth/signup`, actor);
+            const res = await axios.post(`${api_url}/auth/signup`, user);
             setRes(res.data);
             console.log(res.data)
             if (res.data.success) {

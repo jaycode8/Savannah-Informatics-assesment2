@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-const api_url = "http://localhost:4500";
+const api_url = import.meta.env.VITE_API_URL;
 
 const Signin = () => {
     const [actor, setActor] = useState({

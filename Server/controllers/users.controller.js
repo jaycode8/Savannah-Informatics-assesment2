@@ -1,26 +1,5 @@
 const { usersModel } = require("../models/base.models");
 
-const new_user = async (req, res) => {
-    try {
-        const existEmail = await usersModel.findOne({ email: req.body.email });
-        if (!existEmail) {
-            const existUsername = await usersModel.findOne({ username: req.body.username });
-            if (!existUsername) {
-                const user = new usersModel(req.body);
-                await user.save();
-                res.status(200).json({ message: `Account successfully created`, success: true });
-                
-            } else {
-                res.status(403).json({ message: "username is already taken", success: false });
-            }
-        } else {
-            res.status(403).json({ message: "Email address is already used", success: false });
-        }
-    } catch (err) {
-        res.status(404).json({ message: err.message, success: false });
-    }
-};
-
 const get_all_users = async (req, res) => {
     try {
         const users = await usersModel.find();
@@ -32,7 +11,7 @@ const get_all_users = async (req, res) => {
 
 const get_user = async (req, res) => {
     try {
-        const user = await usersModel.findById(req.params.user_id);
+        const user = await usersModel.findById(req.params.user_id).populate("albums");
         res.status(200).json({ data: user, success: true });
     } catch (err) {
         res.status(403).json({ message: err.message, success: false });
@@ -57,4 +36,4 @@ const delete_user = async (req, res) => {
     }
 };
 
-module.exports = { new_user, delete_user, get_all_users, get_user, update_user};
+module.exports = { delete_user, get_all_users, get_user, update_user};

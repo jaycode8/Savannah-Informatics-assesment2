@@ -1,248 +1,202 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { BsPlus } from "react-icons/bs";
+import { LiaTimesSolid } from "react-icons/lia";
+import { Link } from "react-router-dom";
+import axios from "axios";
+const api_url = import.meta.env.VITE_API_URL;
 
 const Users = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [user, setUser] = useState({
+        username: "",
+        email: "",
+        password: "",
+    });
+    const [users, setUsers] = useState([]);
+    const [res, setRes] = useState({});
+    const [currentPage, setCurrentPage] = useState(1);
+    const rowsPerPage = 5;
 
-      const handleClick = () =>{
-            location.href = "/user/1"
-      }
+    const handleChange = ({ currentTarget: input }) => {
+        setUser({ ...user, [input.name]: input.value });
+    };
 
-      return (
-            <div className="relative overflow-x-auto sm:rounded-lg m-2 sm:m-10 my-14 lg:m-28">
-                  <h1 className='text-2xl uppercase mb-4 text-center font-bold'>List of Users</h1>
+    const token = localStorage.getItem("access_token");
 
-                  <table className="w-full text-sm text-left text-gray-500">
-                        <thead className="text-xs uppercase bg-gray-700 text-white">
-                              <tr>
-                                    <th scope="col" className="px-6 py-3">
-                                          Product name
-                                    </th>
-                                    <th scope="col" className="px-6 py-3">
-                                          Color
-                                    </th>
-                                    <th scope="col" className="px-6 py-3">
-                                          Category
-                                    </th>
-                                    <th scope="col" className="px-6 py-3">
-                                          Price
-                                    </th>
-                                    <th scope="col" className="px-6 py-3">
-                                          Action
-                                    </th>
-                              </tr>
-                        </thead>
-                        <tbody>
-                              <tr className="bg-white border-b hover:bg-gray-200 hover:cursor-pointer" onClick={()=> handleClick()}>
-                              
-                                    <td scope="row" className="px-6 py-4 font-medium whitespace-nowrap">
-                                          Apple MacBook Pro 17"
-                                    </td>
-                                    <td className="px-6 py-4">
-                                          Silver
-                                    </td>
-                                    <td className="px-6 py-4">
-                                          Laptop
-                                    </td>
-                                    <td className="px-6 py-4">
-                                          $2999
-                                    </td>
-                                    <td className="px-6 py-4">
-                                          <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                    </td>
-                              </tr>
-                              <tr className="bg-white border-b hover:bg-gray-50">
-                                    
-                                    <th scope="row" className="px-6 py-4 font-medium whitespace-nowrap">
-                                          Microsoft Surface Pro
-                                    </th>
-                                    <td className="px-6 py-4">
-                                          White
-                                    </td>
-                                    <td className="px-6 py-4">
-                                          Laptop PC
-                                    </td>
-                                    <td className="px-6 py-4">
-                                          $1999
-                                    </td>
-                                    <td className="px-6 py-4">
-                                          <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                    </td>
-                              </tr>
-                              <tr className="bg-white border-b hover:bg-gray-50">
-                                   
-                                    <th scope="row" className="px-6 py-4 font-medium whitespace-nowrap">
-                                          Magic Mouse 2
-                                    </th>
-                                    <td className="px-6 py-4">
-                                          Black
-                                    </td>
-                                    <td className="px-6 py-4">
-                                          Accessories
-                                    </td>
-                                    <td className="px-6 py-4">
-                                          $99
-                                    </td>
-                                    <td className="px-6 py-4">
-                                          <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                    </td>
-                              </tr>
-                              <tr className="bg-white border-b hover:bg-gray-50">
-                                    
-                                    <th scope="row" className="px-6 py-4 font-medium whitespace-nowrap">
-                                          Apple Watch
-                                    </th>
-                                    <td className="px-6 py-4">
-                                          Black
-                                    </td>
-                                    <td className="px-6 py-4">
-                                          Watches
-                                    </td>
-                                    <td className="px-6 py-4">
-                                          $199
-                                    </td>
-                                    <td className="px-6 py-4">
-                                          <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                    </td>
-                              </tr>
-                              <tr className="bg-white border-b hover:bg-gray-50">
-                                    
-                                    <th scope="row" className="px-6 py-4 font-medium whitespace-nowrap">
-                                          Apple iMac
-                                    </th>
-                                    <td className="px-6 py-4">
-                                          Silver
-                                    </td>
-                                    <td className="px-6 py-4">
-                                          PC
-                                    </td>
-                                    <td className="px-6 py-4">
-                                          $2999
-                                    </td>
-                                    <td className="px-6 py-4">
-                                          <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                    </td>
-                              </tr>
-                              <tr className="bg-white border-b hover:bg-gray-50">
-                                    
-                                    <th scope="row" className="px-6 py-4 font-medium whitespace-nowrap">
-                                          Apple AirPods
-                                    </th>
-                                    <td className="px-6 py-4">
-                                          White
-                                    </td>
-                                    <td className="px-6 py-4">
-                                          Accessories
-                                    </td>
-                                    <td className="px-6 py-4">
-                                          $399
-                                    </td>
-                                    <td className="px-6 py-4">
-                                          <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                    </td>
-                              </tr>
-                              <tr className="bg-white border-b hover:bg-gray-50">
-                                    
-                                    <th scope="row" className="px-6 py-4 font-medium whitespace-nowrap">
-                                          iPad Pro
-                                    </th>
-                                    <td className="px-6 py-4">
-                                          Gold
-                                    </td>
-                                    <td className="px-6 py-4">
-                                          Tablet
-                                    </td>
-                                    <td className="px-6 py-4">
-                                          $699
-                                    </td>
-                                    <td className="px-6 py-4">
-                                          <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                    </td>
-                              </tr>
-                              <tr className="bg-white border-b hover:bg-gray-50">
-                                    
-                                    <th scope="row" className="px-6 py-4 font-medium whitespace-nowrap">
-                                          Magic Keyboard
-                                    </th>
-                                    <td className="px-6 py-4">
-                                          Black
-                                    </td>
-                                    <td className="px-6 py-4">
-                                          Accessories
-                                    </td>
-                                    <td className="px-6 py-4">
-                                          $99
-                                    </td>
-                                    <td className="px-6 py-4">
-                                          <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                    </td>
-                              </tr>
-                              <tr className="bg-white border-b hover:bg-gray-50">
-                                    
-                                    <th scope="row" className="px-6 py-4 font-medium whitespace-nowrap">
-                                          Smart Folio iPad Air
-                                    </th>
-                                    <td className="px-6 py-4">
-                                          Blue
-                                    </td>
-                                    <td className="px-6 py-4">
-                                          Accessories
-                                    </td>
-                                    <td className="px-6 py-4">
-                                          $79
-                                    </td>
-                                    <td className="px-6 py-4">
-                                          <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                    </td>
-                              </tr>
-                              <tr className="bg-white border-b hover:bg-gray-50">
-                                    
-                                    <th scope="row" className="px-6 py-4 font-medium whitespace-nowrap">
-                                          AirTag
-                                    </th>
-                                    <td className="px-6 py-4">
-                                          Silver
-                                    </td>
-                                    <td className="px-6 py-4">
-                                          Accessories
-                                    </td>
-                                    <td className="px-6 py-4">
-                                          $29
-                                    </td>
-                                    <td className="px-6 py-4">
-                                          <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                    </td>
-                              </tr>
-                        </tbody>
-                  </table>
-                  <nav className="flex items-center flex-column flex-wrap md:flex-row justify-between pt-4" aria-label="Table navigation">
-                        <span className="text-sm font-normal text-gray-500 mb-4 md:mb-0 block w-full md:inline md:w-auto">Showing <span className="font-semibold">1-10</span> of <span className="font-semibold">1000</span></span>
-                        <ul className="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
-                              <li>
-                                    <a href="#" className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-white">Previous</a>
-                              </li>
-                              <li>
-                                    <a href="#" className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-white">1</a>
-                              </li>
-                              <li>
-                                    <a href="#" className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-white">2</a>
-                              </li>
-                              <li>
-                                    <a href="#" aria-current="page" className="flex items-center justify-center px-3 h-8 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-70">3</a>
-                              </li>
-                              <li>
-                                    <a href="#" className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-white">4</a>
-                              </li>
-                              <li>
-                                    <a href="#" className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-white">5</a>
-                              </li>
-                              <li>
-                                    <a href="#" className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-white">Next</a>
-                              </li>
-                        </ul>
-                  </nav>
+    const fetchUsers = async () => {
+        try {
+            const users_list = await axios.get(`${api_url}/users`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            setUsers(users_list.data.data);
+        } catch (error) {
+            console.log(error)
+        }
+    };
+
+    const toggleModal = () => {
+        setIsModalOpen(!isModalOpen);
+    };
+
+    const handleClick = (user_id) => {
+        location.href = `/user/${user_id}`;
+    };
+
+    const handleSubmit = async (event) => {
+        try {
+            event.preventDefault();
+            const res = await axios.post(`${api_url}/auth/signup`, user);
+            setRes(res.data);
+            if (res.data.success) {
+                setTimeout(() => {
+                    location.reload(true);
+                }, 3000);
+            }
+        } catch (error) {
+            if (error.response) {
+                setRes(error.response.data);
+            }
+        }
+    };
+
+    useEffect(() => {
+        fetchUsers();
+    }, []);
+
+    const totalPages = Math.ceil(users.length / rowsPerPage);
+
+    const startIndex = (currentPage - 1) * rowsPerPage;
+    const endIndex = startIndex + rowsPerPage;
+    const currentUsers = users.slice(startIndex, endIndex);
+
+    const handlePageChange = (page) => {
+        if (page > 0 && page <= totalPages) {
+            setCurrentPage(page);
+        }
+    };
+
+    return (
+        <div className="relative overflow-x-auto sm:rounded-lg m-2 sm:m-10 my-14 lg:m-28">
+            <div id="default-modal" tabIndex="-1" aria-hidden={!isModalOpen} className={`${isModalOpen ? "flex" : "hidden"} bg-[rgba(0,0,0,0.5)] overflow-y-hidden overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-screen`}>
+                <div className={`${res.message ? "block" : "hidden"} absolute top-4 right-4`}>
+                    <div id="alert-3" className={`flex items-center p-4 mb-4 ${res.success ? "text-green-800 dark:text-green-400" : "text-red-800 dark:text-red-400"}  rounded-lg bg-green-50 dark:bg-gray-800 `} role="alert">
+                        <svg className="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                        </svg>
+                        <div className="ms-3 text-sm font-medium">{res.message}</div>
+                        <button type="button" className={`ms-auto -mx-1.5 -my-1.5 rounded-lg p-1.5 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:hover:bg-gray-700 ${res.success ? "bg-green-50 text-green-500 dark:text-green-400 hover:bg-green-200" : "bg-red-50 text-red-500 dark:text-red-400 hover:bg-red-200"}`} data-dismiss-target="#alert-3" aria-label="Close">
+                            <span className="sr-only">Close</span>
+                            <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div className="relative p-4 w-full max-w-2xl max-h-full">
+                    <div className=" relative bg-white rounded-lg shadow">
+                        <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                            <h3 className="text-xl font-semibold text-[#121212]">New User</h3>
+                            <LiaTimesSolid onClick={toggleModal} type="button" className="cursor-pointer text-gray-400 bg-transparent hover:bg-gray-200 hover:text-[#121212] rounded-lg text-sm w-6 h-6 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" />
+                        </div>
+                        <form className="my-4 p-5 mx-auto" onSubmit={handleSubmit}>
+                            <div className="relative z-0 w-full mb-5 group">
+                                <input type="text" name="username" id="username" className="block py-2.5 px-0 w-full text-sm text-[#121212] bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required onChange={handleChange} />
+                                <label
+                                    htmlFor="username"
+                                    className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                                    User Name
+                                </label>
+                            </div>
+                            <div className="relative z-0 w-full mb-5 group">
+                                <input type="email" name="email" id="floating_email" className="block py-2.5 px-0 w-full text-sm text-[#121212] bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required onChange={handleChange} />
+                                <label
+                                    htmlFor="floating_email"
+                                    className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                                    Email address
+                                </label>
+                            </div>
+                            <div className="relative z-0 w-full mb-5 group">
+                                <input type="password" name="password" id="floating_password" className="block py-2.5 px-0 w-full text-sm text-[#121212] bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder="" required onChange={handleChange} minLength="7" />
+                                <label
+                                    htmlFor="floating_password"
+                                    className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                                    Password
+                                </label>
+                            </div>
+                            <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 rounded-sm mt-2 text-sm w-full sm:w-auto px-8 py-2 text-center">
+                                Submit
+                            </button>
+                        </form>
+                    </div>
+                </div>
             </div>
+            <h1 className="text-2xl uppercase mb-4 text-center font-bold">List of Users</h1>
+            <button onClick={toggleModal} type="button" className="absolute top-0 right-0 text-white bg-[#121212] rounded-md text-sm px-4 gap-2 py-2 text-center inline-flex items-center justify-between me-2">
+                <BsPlus className="text-white text-xl" />
+                NEW
+            </button>
+            <table className="w-full text-sm text-left text-gray-500">
+                <thead className="text-xs uppercase bg-gray-700 text-white">
+                    <tr>
+                        <th scope="col" className="px-6 py-3">
+                            User Name
+                        </th>
+                        <th scope="col" className="px-6 py-3">
+                            Email
+                        </th>
+                        <th scope="col" className="px-6 py-3">
+                            Albums
+                        </th>
+                        <th scope="col" className="px-6 py-3">
+                            Created At
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {currentUsers.map((user) => (
+                        <tr className="bg-white border-b hover:bg-gray-200 hover:cursor-pointer" onClick={() => handleClick(`${user._id}`)}>
+                            <td scope="row" className="px-6 py-4 font-medium whitespace-nowrap">
+                                {user.username}
+                            </td>
+                            <td className="px-6 py-4">{user.email}</td>
+                            <td className="px-6 py-4">{user.albums ? user.albums.length : 0}</td>
+                            <td className="px-6 py-4">{new Date(user.createdAt).toLocaleString()}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+            <nav className="flex items-center justify-between pt-4" aria-label="Table navigation">
+                <span className="text-sm font-normal text-gray-500">
+                    Showing{" "}
+                    <span className="font-semibold">
+                        {startIndex + 1}-{Math.min(endIndex, users.length)}
+                    </span>{" "}
+                    of <span className="font-semibold">{users.length}</span>
+                </span>
+                <ul className="inline-flex -space-x-px text-sm h-8">
+                    <li>
+                        <button onClick={() => handlePageChange(currentPage - 1)} className={`px-3 h-8 border ${currentPage === 1 ? "text-gray-300" : "text-gray-500 hover:bg-gray-100"} rounded-l-lg`} disabled={currentPage === 1}>
+                            Previous
+                        </button>
+                    </li>
+                    {[...Array(totalPages)].map((_, index) => (
+                        <li key={index}>
+                            <button onClick={() => handlePageChange(index + 1)} className={`px-3 h-8 border ${currentPage === index + 1 ? "bg-blue-50 text-blue-600" : "text-gray-500 hover:bg-gray-100"}`}>
+                                {index + 1}
+                            </button>
+                        </li>
+                    ))}
+                    <li>
+                        <button onClick={() => handlePageChange(currentPage + 1)} className={`px-3 h-8 border ${currentPage === totalPages ? "text-gray-300" : "text-gray-500 hover:bg-gray-100"} rounded-r-lg`} disabled={currentPage === totalPages}>
+                            Next
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    );
+};
 
-      );
-}
-
-export default Users
+export default Users;

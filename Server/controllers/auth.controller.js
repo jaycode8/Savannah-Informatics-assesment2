@@ -10,7 +10,6 @@ const main = async (req, res) => {
 };
 
 const signUp = async (req, res) => {
-    console.log(req.body);
     try {
         const existEmail = await usersModel.findOne({ email: req.body.email });
         if (!existEmail) {
