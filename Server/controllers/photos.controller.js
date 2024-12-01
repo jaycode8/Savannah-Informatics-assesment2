@@ -3,7 +3,6 @@ const { photosModel } = require("../models/base.models");
 const new_photo = async (req, res) => {
     try {
         if (req.file) {
-            console.log(req.params.album_id);
             req.body.image_url = req.file.path;
             req.body.image_public_id = req.file.filename;
             req.body.album = req.params.album_id;

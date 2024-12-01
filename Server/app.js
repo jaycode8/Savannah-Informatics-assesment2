@@ -33,7 +33,7 @@ app.use(passport.session());
 app.use("/auth", auth_routes);
 app.use("/albums", albums_routes);
 app.use("/users", user_routes);
-app.use("/album/:album_id/photos", photo_router);
+app.use("/photos", photo_router);
 
 app.listen(PORT, () => console.info(`server running on port ${PORT}`));
 

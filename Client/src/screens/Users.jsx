@@ -47,7 +47,11 @@ const Users = () => {
     const handleSubmit = async (event) => {
         try {
             event.preventDefault();
-            const res = await axios.post(`${api_url}/auth/signup`, user);
+            const res = await axios.post(`${api_url}/auth/signup`, user, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
             setRes(res.data);
             if (res.data.success) {
                 setTimeout(() => {
@@ -125,7 +129,7 @@ const Users = () => {
                                     Password
                                 </label>
                             </div>
-                            <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 rounded-sm mt-2 text-sm w-full sm:w-auto px-8 py-2 text-center">
+                            <button type="submit" className="text-white bg-[#121212] rounded-sm mt-2 text-sm w-full sm:w-auto px-8 py-2 text-center">
                                 Submit
                             </button>
                         </form>
