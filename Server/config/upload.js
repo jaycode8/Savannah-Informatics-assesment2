@@ -20,6 +20,6 @@ let storage = new CloudinaryStorage({
     },
 });
 
-let upload = multer({ storage: storage2 });
+let upload = multer({ storage: storage });
 
 module.exports = upload;

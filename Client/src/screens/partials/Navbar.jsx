@@ -1,7 +1,7 @@
 import { HiBars3BottomRight } from "react-icons/hi2"
 import { BiCross, BiUserCircle } from "react-icons/bi";
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const NavBar = () => {
     const [nav, setNav] = useState(false);
@@ -13,6 +13,13 @@ const NavBar = () => {
         setNav(!nav);
         setLocation(window.location.href);
     }
+    const navigate = useNavigate();
+    const token = localStorage.getItem("access_token");
+
+    const handleLogout = () => {
+        localStorage.removeItem("access_token");
+        navigate("/");
+    };
 
     const isOpen = nav ? "top-12" : "-top-[25rem]";
 
@@ -37,7 +44,22 @@ const NavBar = () => {
                     })}
                 </ul>
             </nav>
-            <Link to="/signin" className="absolute top-2 right-14 lg:right-10 text-3xl cursor-pointer"><BiUserCircle  /></Link>
+            {token ? (
+                <button
+                    onClick={handleLogout}
+                    className="absolute top-2 right-14 lg:right-10 cursor-pointer text-red-500"
+                >
+                    Logout
+                </button>
+            ) : (
+                <Link
+                    to="/signin"
+                    className="absolute top-2 right-14 lg:right-10 text-3xl cursor-pointer"
+                >
+                    <BiUserCircle />
+                </Link>
+            )}
+            {/* <Link to="/signin" className="absolute top-2 right-14 lg:right-10 text-3xl cursor-pointer"><BiUserCircle  /></Link> */}
             {
                 nav ? <BiCross onClick={menuToggle} className="block cursor-pointer text-[1.8rem] lg:hidden rotate-45" /> : <HiBars3BottomRight onClick={menuToggle} className="block cursor-pointer text-[1.8rem] lg:hidden" />
             }

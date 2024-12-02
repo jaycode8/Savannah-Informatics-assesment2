@@ -9,6 +9,7 @@ import Users from "./screens/Users";
 import Albums from "./screens/Albums";
 import Album from "./screens/Album";
 import User from "./screens/User";
+import ProtectedRoute from "./screens/ProtectedRoute";
 
 export default function App() {
     const location = useLocation();
@@ -20,10 +21,26 @@ export default function App() {
                 <Route path="/" element={<Landing />} />
                 <Route path="signup" element={<Signup />} />
                 <Route path="signin" element={<Signin />} />
-                <Route path="users" element={<Users />} />
-                <Route path="user/:id" element={<User />} />
-                <Route path="albums" element={<Albums />} />
-                <Route path="album/:id" element={<Album />} />
+                <Route path="users" element={
+                    <ProtectedRoute>
+                        <Users />
+                    </ProtectedRoute>
+                } />
+                <Route path="user/:id" element={
+                    <ProtectedRoute>
+                        <User />
+                    </ProtectedRoute>
+                } />
+                <Route path="albums" element={
+                    <ProtectedRoute>
+                        <Albums />
+                    </ProtectedRoute>
+                } />
+                <Route path="album/:id" element={
+                    <ProtectedRoute>
+                        <Album />
+                    </ProtectedRoute>
+                } />
             </Routes>
             {!hidePartials && <Footer />}
         </>
