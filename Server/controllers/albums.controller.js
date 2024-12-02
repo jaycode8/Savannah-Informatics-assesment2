@@ -30,22 +30,4 @@ const get_album = async (req, res) => {
     }
 };
 
-const update_album = async (req, res) => {
-    try {
-        await albumsModel.findByIdAndUpdate(req.params.album_id, req.body);
-        res.status(200).json({ message: "Successfully updated album's data", success: true });
-    } catch (err) {
-        res.status(403).json({ message: err.message, success: false });
-    }
-};
-
-const delete_album = async (req, res) => {
-    try {
-        await albumsModel.findByIdAndDelete(req.params.album_id);
-        res.status(200).json({ message: "Successfully deleted album's data", success: true });
-    } catch (err) {
-        res.status(403).json({ message: err.message, success: false });
-    }
-};
-
-module.exports = { new_album, delete_album, get_all_albums, get_album, update_album};
+module.exports = { new_album, get_all_albums, get_album};

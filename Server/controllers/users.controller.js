@@ -18,22 +18,4 @@ const get_user = async (req, res) => {
     }
 };
 
-const update_user = async (req, res) => {
-    try {
-        await usersModel.findByIdAndUpdate(req.params.user_id, req.body);
-        res.status(200).json({ message: "Successfully updated user data", success: true });
-    } catch (err) {
-        res.status(403).json({ message: err.message, success: false });
-    }
-};
-
-const delete_user = async (req, res) => {
-    try {
-        await usersModel.findByIdAndDelete(req.params.user_id);
-        res.status(200).json({ message: "Successfully deleted user data", success: true });
-    } catch (err) {
-        res.status(403).json({ message: err.message, success: false });
-    }
-};
-
-module.exports = { delete_user, get_all_users, get_user, update_user};
+module.exports = { get_all_users, get_user};

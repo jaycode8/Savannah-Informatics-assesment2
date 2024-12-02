@@ -10,7 +10,7 @@ const Album = () => {
     const [photoList, setPhotoList] = useState([]);
     const { id } = useParams();
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [chosedFile, setChosedFile] = useState(null);
+    const [chosedFiles, setChosedFiles] = useState([]);
     const [photo, setPhoto] = useState({
         title: ""
     });
@@ -22,8 +22,8 @@ const Album = () => {
     };
 
     const fileChange = (event) => {
-        const image = event.target.files[0];
-        setChosedFile(image);
+        const images = Array.from(event.target.files);
+        setChosedFiles(images);
     };
     
     const fetchPhotos = async () => {
@@ -48,8 +48,12 @@ const Album = () => {
     const handleSubmit = async (event) => {
         try {
             event.preventDefault();
-            photo.photo = chosedFile;
-            const res = await axios.post(`${api_url}/photos/${id}`, photo, {
+            const formData = new FormData();
+            formData.append("title", photo.title);
+            chosedFiles.forEach(file => {
+                formData.append("photos", file);
+            });
+            const res = await axios.post(`${api_url}/photos/${id}`, formData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "multipart/form-data",
@@ -116,7 +120,7 @@ const Album = () => {
                                         </p>
                                         <p className="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF</p>
                                     </div>
-                                    <input id="dropzone-file" type="file" className="hidden" onChange={fileChange} />
+                                    <input id="dropzone-file" type="file" className="hidden" multiple onChange={fileChange} />
                                 </label>
                             </div>
                             <button type="submit" className="text-white bg-[#121212] rounded-sm mt-2 text-sm w-full sm:w-auto px-8 py-2 text-center">
@@ -132,52 +136,16 @@ const Album = () => {
                     NEW
                 </button>
                 <h1 className="text-2xl uppercase mb-4 font-bold">Album Photos</h1>
-                <div className="pb-5">
-                    <span className="flex gap-2">
-                        <h3 className="font-bold uppercase">Title :</h3>
-                        <p>rr</p>
-                    </span>
-                </div>
+                
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {albumPhoto.map((photo) => (
                     <div>
-                        <img className="h-auto max-w-full rounded-lg" src={photo.image_url} alt="" />
+                        <img className="h-auto max-w-full rounded-lg cursor-pointer" src={photo.image_url} alt="" />
+                        <p className="capitalize">{photo.title}</p>
                     </div>
                 ))}
-                <div>
-                    <img className="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg" alt="" />
-                </div>
-                <div>
-                    <img className="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-2.jpg" alt="" />
-                </div>
-                <div>
-                    <img className="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-3.jpg" alt="" />
-                </div>
-                <div>
-                    <img className="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-4.jpg" alt="" />
-                </div>
-                <div>
-                    <img className="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-5.jpg" alt="" />
-                </div>
-                <div>
-                    <img className="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-6.jpg" alt="" />
-                </div>
-                <div>
-                    <img className="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-7.jpg" alt="" />
-                </div>
-                <div>
-                    <img className="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-8.jpg" alt="" />
-                </div>
-                <div>
-                    <img className="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-9.jpg" alt="" />
-                </div>
-                <div>
-                    <img className="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-10.jpg" alt="" />
-                </div>
-                <div>
-                    <img className="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-11.jpg" alt="" />
-                </div>
+                
             </div>
         </div>
     );

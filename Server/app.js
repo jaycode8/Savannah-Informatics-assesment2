@@ -1,9 +1,9 @@
 const express = require("express");
 require("dotenv").config();
+const path = require('path');
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const PORT = process.env.PORT || 4000;
-const routes = require("./routes/photos.routes");
 const auth_routes = require("./routes/auth.routes");
 const albums_routes = require("./routes/albums.routes");
 require("./config/db");
@@ -28,6 +28,7 @@ app.use(
         },
     })
 );
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use("/auth", auth_routes);
