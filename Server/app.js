@@ -14,9 +14,14 @@ const photo_router = require("./routes/photos.routes");
 require("./config/googleStrategy");
 
 const app = express();
-
+const corsOptions = {
+    origin: 'https://pixkeep.vercel.app', // Frontend domain
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true, // Include credentials if needed
+};
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
     session({
