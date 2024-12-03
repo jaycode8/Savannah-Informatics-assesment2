@@ -16,7 +16,7 @@ const Signin = () => {
     const handleSubmit = async (event) => {
         try {
             event.preventDefault();
-            const res = await axios.post(`${api_url}/auth`, actor);
+            const res = await axios.post(`${api_url}auth`, actor);
             setRes(res.data);
             localStorage.setItem("access_token", res.data.data.access_token);
             if (res.data.success) {
