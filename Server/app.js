@@ -15,10 +15,10 @@ require("./config/googleStrategy");
 
 const app = express();
 const corsOptions = {
-    origin: 'https://pixkeep.vercel.app', // Frontend domain
+    origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true, // Include credentials if needed
+    credentials: true,
 };
 app.use(express.json());
 app.use(cors(corsOptions));
